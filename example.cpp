@@ -1,13 +1,12 @@
-#include "src/game.hpp"
 #include <iostream>
 
-class Lobby: public GameObject {
-    public:
-        void on_update(GameTree*);
-};
+#include "src/game.hpp"
+#include "src/game_core.h"
 
-void Lobby::on_update(GameTree* ctx) {
-    std::cout << "hello from lobby" << std::endl;
+namespace Lobby {
+    void on_update (GameTree* ctx) {
+        std::cout << "hieiohe" << std::endl;
+    }
 }
 
 int main(void) {
@@ -20,7 +19,8 @@ int main(void) {
 
     tree->background_color = Colors::black;
 
-    tree->scene = std::make_shared<Lobby>();
+    tree->scene = new GameObject;
+    gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();
 

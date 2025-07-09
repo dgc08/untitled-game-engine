@@ -1,18 +1,12 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#include <cstdint>
 #include <string>
 #include <memory>
 
-typedef uint32_t u32;
-typedef int32_t i32 ;
-typedef uint8_t u8;
-
-// Raylib redef
-#ifndef RAYLIB_H
-typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
-#endif
+extern "C" {
+    #include "game_core.h"
+}
 
 // COLORS
 
@@ -45,30 +39,5 @@ namespace Colors {
     const Color magenta    = { 255, 0, 255, 255 };     // Magenta
     const Color raywhite   = { 245, 245, 245, 255 };   // White raylib logo
 }
-
-struct GameTree;
-
-// GAME OBJECTS
-class GameObject {
-    public:
-        virtual void on_update(GameTree* ctx) {};
-        virtual void on_draw(GameTree* ctx) {};
-};
-
-// Game
-struct GameTree {
-    u32 width;
-    u32 height;
-
-    const char* window_name;
-
-    Color background_color;
-    std::shared_ptr<GameObject> scene;
-};
-
-
-GameTree* get_tree();
-
-void run_game_loop();
 
 #endif // GAME_H_
