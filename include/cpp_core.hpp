@@ -6,11 +6,11 @@
 #include <vector>
 
 extern "C" {
-#ifndef GAME_CORE_H_
-#include "game_core.h"
-#else
-    struct GameObject;
-#endif
+    #ifndef GAME_CORE_H_
+        #include "game_core.h"
+    #else
+        struct GameObject;
+    #endif
 }
 
 typedef struct {

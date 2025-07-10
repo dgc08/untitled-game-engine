@@ -4,13 +4,13 @@ LIB = librayengine.a
 AR = ar
 CC = clang++
 CFLAGS = -Wall -Wextra -g
-LIBFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+LIBFLAGS = -Iinclude/ -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 SRCS = src/game.cpp src/cpp_impls.cpp
 OBJECTS = $(SRCS:.cpp=.o)
 
-src/game.hpp: src/game_core.h
-$(SRCS): src/game.hpp src/cpp_core.hpp
+include/game.hpp: include/game_core.h
+$(SRCS): include/cpp_core.hpp
 
 $(LIB): $(OBJECTS)
 	$(AR) rcs $@ $(OBJECTS)
@@ -18,6 +18,7 @@ $(LIB): $(OBJECTS)
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+example.cpp: include/game.hpp
 $(TARGET): $(SRCS) example.cpp
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBFLAGS)
 
@@ -25,7 +26,8 @@ $(TARGET): $(SRCS) example.cpp
 run: $(TARGET)
 	./$(TARGET)
 
-example.c: src/game_core.h
+include/game.h: include/game_core.h
+example.c: include/game.h
 cample: example.c $(LIB)
 	gcc $^ -lrayengine -L. -o cample $(LIBFLAGS) -lstdc++
 

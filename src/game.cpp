@@ -111,9 +111,8 @@ void run_game_loop () {
 
         if (raylib) {
             rl::BeginDrawing();
-                do_draw(game_data.scene);
                 ClearBackground( *(rl::Color*)(&game.background_color) );
-                rl::DrawText("Congrats! You created your first window!", 190, 200, 20, rl::LIGHTGRAY);
+                do_draw(game_data.scene);
             rl::EndDrawing();
         }
 

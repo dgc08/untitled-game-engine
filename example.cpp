@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "src/game.hpp"
-#include "src/game_core.h"
+#include "game.hpp"
+#include "game_core.h"
 
 using namespace core;
 

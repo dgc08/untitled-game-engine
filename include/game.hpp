@@ -8,6 +8,10 @@ extern "C" namespace core {
     #include "game_core.h"
 }
 
+namespace rl {
+    #include <raylib.h>
+}
+
 // COLORS
 
 namespace Colors {
