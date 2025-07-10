@@ -4,9 +4,6 @@
 #include <string>
 #include <memory>
 
-#include "cpp_utils.hpp"
-
-
 extern "C" namespace core {
     #include "game_core.h"
 }

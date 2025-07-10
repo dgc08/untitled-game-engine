@@ -10,7 +10,7 @@ SRCS = src/game.cpp src/cpp_impls.cpp
 OBJECTS = $(SRCS:.cpp=.o)
 
 src/game.hpp: src/game_core.h
-$(SRCS): src/game.hpp 
+$(SRCS): src/game.hpp src/cpp_core.hpp
 
 $(LIB): $(OBJECTS)
 	$(AR) rcs $@ $(OBJECTS)

@@ -9,8 +9,15 @@ class Lobby: public Node {
     void update(GameTree* ctx);
 };
 
+class Button: public Node {
+    void update(GameTree* ctx);
+};
+
 void Lobby::update(GameTree* ctx) {
     std::cout << "mogus" << std::endl;
+}
+void Button::update(GameTree* ctx) {
+    std::cout << "bogus" << std::endl;
 }
 
 int main(void) {
@@ -24,6 +31,7 @@ int main(void) {
     tree->background_color = Colors::black;
 
     load_scene(new Lobby);
+    reg_obj(get_root(), new Button, nullptr);
     //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();

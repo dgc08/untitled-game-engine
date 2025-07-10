@@ -15,7 +15,8 @@ typedef u8 bool;
 #endif
 
 typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
-struct GameTree;
+
+typedef struct GameTree GameTree;
 typedef struct GameObject GameObject;
 
 // GAME OBJECTS
@@ -23,7 +24,10 @@ typedef struct GameObject {
     void (*on_update)(GameObject* self, struct GameTree*);
     void (*on_draw)(GameObject* self, struct GameTree*);
 
-    void* private_d;
+    int x;
+    int y;
+
+    void* data;
 } GameObject;
 
 // Game
@@ -34,14 +38,16 @@ typedef struct GameTree {
     Color background_color;
 } GameTree;
 
-GameObject* make_gameObject (void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*));
-
 GameTree* get_tree();
 GameObject* get_root();
 void load_scene(GameObject*);
 
-void run_game_loop();
+GameObject* make_gameObject (void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*));
 void dequeue(GameObject*);
+GameObject** get_children (GameObject* g);
+void reg_obj(GameObject* parent, GameObject* child, char* name);
+
+void run_game_loop();
 
 
 #endif // GAME_CORE_H_
