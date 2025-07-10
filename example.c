@@ -4,9 +4,8 @@
 #include "src/game_core.h"
 
 void on_update (GameObject* self, GameTree* ctx) {
-    printf("hihhk\n");
+    printf("Hello from C!!\n");
 }
-
 
 int main(void) {
     GameTree* tree = get_tree();
@@ -18,7 +17,7 @@ int main(void) {
 
     tree->background_color = (Color) { 0, 0, 0, 255 };
 
-    GameObject* g = MAKE_G(NULL, on_update);
+    GameObject* g = make_gameObject(NULL, on_update);
     //gameObject_initialize(g, NULL, on_update);
     load_scene(g);
 

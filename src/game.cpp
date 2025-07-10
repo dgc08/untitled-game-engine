@@ -22,7 +22,9 @@ GameTree* get_tree () {
 
 void stub_impl (GameObject*, GameTree*) {}
 
-GameObject* gameObject_initialize (GameObject* g, void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*)) {
+GameObject* make_gameObject (void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*)) {
+    GameObject* g = new GameObject;
+
     g->on_draw = draw ? draw : stub_impl;
     g->on_update = update ? update : stub_impl;
 
@@ -58,8 +60,5 @@ void run_game_loop () {
 }
 
 void dequeue(GameObject* g) {
-    if (g->use_cpp_alloc)
-        delete g;
-    else
-        free(g);
+    delete g;
 }
