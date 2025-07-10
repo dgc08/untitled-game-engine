@@ -3,10 +3,14 @@
 #include "src/game.hpp"
 #include "src/game_core.h"
 
-namespace Lobby {
-    void on_update (GameTree* ctx) {
-        std::cout << "hieiohe" << std::endl;
-    }
+using namespace core;
+
+class Lobby: public Node {
+    void update(GameTree* ctx);
+};
+
+void Lobby::update(GameTree* ctx) {
+    std::cout << "mogus" << std::endl;
 }
 
 int main(void) {
@@ -19,8 +23,8 @@ int main(void) {
 
     tree->background_color = Colors::black;
 
-    tree->scene = new GameObject;
-    gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
+    load_scene(new Lobby);
+    //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();
 

@@ -3,7 +3,7 @@
 //#include "src/game.hpp"
 #include "src/game_core.h"
 
-void on_update (GameTree* ctx) {
+void on_update (GameObject* self, GameTree* ctx) {
     printf("hihhk\n");
 }
 
@@ -18,9 +18,9 @@ int main(void) {
 
     tree->background_color = (Color) { 0, 0, 0, 255 };
 
-    GameObject g;
-    tree->scene = &g;
-    gameObject_initialize(tree->scene, NULL, on_update);
+    GameObject* g = MAKE_G(NULL, on_update);
+    //gameObject_initialize(g, NULL, on_update);
+    load_scene(g);
 
     run_game_loop();
 
