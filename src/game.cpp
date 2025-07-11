@@ -111,7 +111,7 @@ void run_game_loop () {
 
         if (raylib) {
             rl::BeginDrawing();
-                ClearBackground( *(rl::Color*)(&game.background_color) );
+                ClearBackground( CONV(game.background_color, rl::Color) );
                 do_draw(game_data.scene);
             rl::EndDrawing();
         }

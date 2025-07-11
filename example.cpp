@@ -2,6 +2,7 @@
 
 #include "game.hpp"
 #include "game_core.h"
+#include "objects.hpp"
 
 using namespace core;
 
@@ -32,6 +33,11 @@ int main(void) {
 
     load_scene(new Lobby);
     reg_obj(get_root(), new Button, nullptr);
+    auto t = new Text("Hello and welcome", 20, LIGHTGRAY);
+    t->x = 190;
+    t->y = 200,
+
+    reg_obj(get_root(), t, nullptr);
     //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();

@@ -3,14 +3,16 @@ LIB = librayengine.a
 
 AR = ar
 CC = clang++
-CFLAGS = -Wall -Wextra -g
-LIBFLAGS = -Iinclude/ -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+CFLAGS = -Wall -Wextra -g -Iinclude/
+LIBFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
-SRCS = src/game.cpp src/cpp_impls.cpp
 OBJECTS = $(SRCS:.cpp=.o)
+GAME_OBJECTS := $(wildcard src/objects/*)
+SRCS = src/game.cpp src/cpp_impls.cpp $(GAME_OBJECTS)
 
 include/game.hpp: include/game_core.h
 $(SRCS): include/cpp_core.hpp
+$(GAME_OBJECTS): include/objects.hpp include/objects.h
 
 $(LIB): $(OBJECTS)
 	$(AR) rcs $@ $(OBJECTS)
@@ -29,7 +31,7 @@ run: $(TARGET)
 include/game.h: include/game_core.h
 example.c: include/game.h
 cample: example.c $(LIB)
-	gcc $^ -lrayengine -L. -o cample $(LIBFLAGS) -lstdc++
+	gcc $^ -lrayengine -L. -o cample $(LIBFLAGS) $(CFLAGS) -lstdc++
 
 rcample: cample
 	./cample

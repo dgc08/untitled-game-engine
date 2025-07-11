@@ -14,6 +14,8 @@ typedef u8 bool;
 #include <stdlib.h>
 #endif
 
+#define CONV(val, T) ( *(T*)&val )
+
 typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
 
 typedef struct GameTree GameTree;
