@@ -29,27 +29,35 @@ void load_scene (GameObject* scene) {
     game_data.scene = scene;
 }
 
-GameObject* make_gameObject (void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*)) {
+GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*dequeue)(GameObject*, GameTree*),size_t extra_size) {
     GameObject* g = new GameObject;
 
     g->data = new GameObjectData;
+    if (extra_size)
+        g->c_extra = ::operator new(extra_size);
 
     g->x = 0;
     g->y = 0;
 
+    g->on_end = dequeue ? dequeue : stub_impl;
     g->on_draw = draw ? draw : stub_impl;
     g->on_update = update ? update : stub_impl;
+    g->on_load = load ? load : stub_impl;
 
     return g;
 }
 
 void dequeue(GameObject* g) {
+    g->on_end(g, &game);
+
     GameObjectData* data = (GameObjectData*)g->data;
 
     for (auto& child : data->children) {
         dequeue(child);
     }
 
+    if (g->c_extra)
+        ::operator delete (g->c_extra);
     delete data;
     delete g;
 }
@@ -61,6 +69,16 @@ void do_update (GameObject* g) {
 
     for (auto& child : data->children) {
         do_update(child);
+    }
+}
+
+void do_load (GameObject* g) {
+    GameObjectData* data = (GameObjectData*)g->data;
+
+    g->on_load(g, &game);
+
+    for (auto& child : data->children) {
+        do_load(child);
     }
 }
 
@@ -104,6 +122,7 @@ void run_game_loop () {
         rl::InitWindow(game.width, game.height, game.window_name);
 
     bool is_running = game_data.scene != nullptr;
+    do_load(get_root());
     while (is_running) {
         if (raylib)
             is_running &= !rl::WindowShouldClose();

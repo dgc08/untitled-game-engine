@@ -18,8 +18,8 @@ int main(void) {
 
     tree->background_color = BLACK;
 
-    GameObject* g = make_gameObject(NULL, on_update);
-    GameObject* text = make_gameText("hello my guys", 20, LIGHTGRAY);
+    GameObject* g = make_gameObject(NULL, on_update, NULL, NULL, 0);
+    GameObject* text = make_gameText("hello my guys", "PixelOperator.ttf", 15, LIGHTGRAY);
     text->x = 190;
     text->y = 200;
     //gameObject_initialize(g, NULL, on_update);

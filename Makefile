@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -g -Iinclude/
 LIBFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 OBJECTS = $(SRCS:.cpp=.o)
-GAME_OBJECTS := $(wildcard src/objects/*)
+GAME_OBJECTS := $(wildcard src/objects/*.cpp)
 SRCS = src/game.cpp src/cpp_impls.cpp $(GAME_OBJECTS)
 
 include/game.hpp: include/game_core.h

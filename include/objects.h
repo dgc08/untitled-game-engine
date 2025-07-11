@@ -8,6 +8,7 @@ struct Color {unsigned int color;};
 struct GameObject;
 #endif
 
-GameObject* make_gameText(char* text, int font_size, Color color);
+GameObject* make_gameText(char* text, const char* font_path, float font_size, Color color);
+void configure_gameText(GameObject* self, float fontSize, float spacing, Color color);
 
 #endif // OBJECTS_H_

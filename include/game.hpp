@@ -49,8 +49,10 @@ class Node: public core::GameObject {
         ~Node();
         Node();
 
+        virtual void load(core::GameTree*) {};
         virtual void update(core::GameTree*) {};
         virtual void draw(core::GameTree*) {};
+        virtual void end(core::GameTree*) {};
 };
 
 #endif // GAME_H_

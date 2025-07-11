@@ -7,17 +7,17 @@
 using namespace core;
 
 class Lobby: public Node {
-    void update(GameTree* ctx);
+    void load(GameTree* ctx);
 };
 
 class Button: public Node {
-    void update(GameTree* ctx);
+    void load(GameTree* ctx);
 };
 
-void Lobby::update(GameTree* ctx) {
+void Lobby::load(GameTree* ctx) {
     std::cout << "mogus" << std::endl;
 }
-void Button::update(GameTree* ctx) {
+void Button::load(GameTree* ctx) {
     std::cout << "bogus" << std::endl;
 }
 
@@ -33,7 +33,7 @@ int main(void) {
 
     load_scene(new Lobby);
     reg_obj(get_root(), new Button, nullptr);
-    auto t = new Text("Hello and welcome", 20, LIGHTGRAY);
+    auto t = new Text("Hello and welcome", "PixelOperator.ttf", 20, Colors::lightgray);
     t->x = 190;
     t->y = 200,
 

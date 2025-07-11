@@ -23,13 +23,17 @@ typedef struct GameObject GameObject;
 
 // GAME OBJECTS
 typedef struct GameObject {
+    void (*on_load)(GameObject* self, struct GameTree*);
     void (*on_update)(GameObject* self, struct GameTree*);
     void (*on_draw)(GameObject* self, struct GameTree*);
+    void (*on_end)(GameObject* self, struct GameTree*);
 
-    int x;
-    int y;
+    float x;
+    float y;
 
-    void* data;
+    void* data; // DO NOT USE THIS
+                // Data is of type GameObjectData and is private for the Game Engine
+    void* c_extra; // Use this, for extra data
 } GameObject;
 
 // Game
@@ -44,7 +48,7 @@ GameTree* get_tree();
 GameObject* get_root();
 void load_scene(GameObject*);
 
-GameObject* make_gameObject (void(*draw)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*));
+GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*dequeue)(GameObject*, GameTree*),size_t extra_c_size);
 void dequeue(GameObject*);
 GameObject** get_children (GameObject* g);
 void reg_obj(GameObject* parent, GameObject* child, char* name);
