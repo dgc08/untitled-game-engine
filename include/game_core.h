@@ -17,16 +17,14 @@ typedef u8 bool;
 #define CONV(val, T) ( *(T*)&val )
 
 typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
-
-typedef struct GameTree GameTree;
-typedef struct GameObject GameObject;
+typedef void (*GameObjFunc)(struct GameObject* self, struct GameTree* tree);
 
 // GAME OBJECTS
 typedef struct GameObject {
-    void (*on_load)(GameObject* self, struct GameTree*);
-    void (*on_update)(GameObject* self, struct GameTree*);
-    void (*on_draw)(GameObject* self, struct GameTree*);
-    void (*on_end)(GameObject* self, struct GameTree*);
+    GameObjFunc on_load;
+    GameObjFunc on_update;
+    GameObjFunc on_draw;
+    GameObjFunc on_end;
 
     float x;
     float y;
@@ -38,6 +36,9 @@ typedef struct GameObject {
 
 // Game
 typedef struct GameTree {
+    float delta;
+    float time;
+
     u32 width;
     u32 height;
     const char* window_name;
@@ -50,8 +51,10 @@ void load_scene(GameObject*);
 
 GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*dequeue)(GameObject*, GameTree*),size_t extra_c_size);
 void dequeue(GameObject*);
-GameObject** get_children (GameObject* g);
 void reg_obj(GameObject* parent, GameObject* child, char* name);
+
+GameObject** get_children (GameObject* g);
+GameObject* get_parent (GameObject* g);
 
 void run_game_loop();
 

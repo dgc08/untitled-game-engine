@@ -14,7 +14,7 @@ include/game.hpp: include/game_core.h
 $(SRCS): include/cpp_core.hpp
 $(GAME_OBJECTS): include/objects.hpp include/objects.h
 
-$(LIB): $(OBJECTS)
+$(LIB): $(OBJECTS) $(SRC)
 	$(AR) rcs $@ $(OBJECTS)
 
 %.o: %.cpp

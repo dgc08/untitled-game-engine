@@ -1,5 +1,5 @@
 #include "objects.hpp"
-#include "objects.h"
+#include <string.h>
 #include <string>
 
 #include <iostream>
@@ -38,14 +38,20 @@ Text::Text(std::string text, const char* font_path, float font_size, core::Color
     this->on_draw = on_draw_text;
     this->on_load = on_load_text;
 }
-GameObject* make_gameText (char* text, const char* font_path, float font_size, Color color) {
+GameObject* make_gameText (const char* text, const char* font_path, float font_size, Color color) {
     core::GameObject* ret = (core::GameObject*) new Text(std::string(text), font_path, font_size, CONV(color, core::Color));
     return (GameObject*) ret;
 }
 
-void configure_gameText(core::GameObject* self, float fontSize, float spacing, Color color) {
-    Text* t = (Text*)self;
+void configure_gameText(GameObject* self, float fontSize, float spacing, Color color) {
+    Text* t = (Text*) (core::GameObject*) self;
     t->font_size = fontSize;
     t->spacing = spacing;
     t->color = CONV(color, core::Color);
+    //t->text = std::string("basching");
+}
+
+void set_gameText_text(GameObject* self, const char* text) {
+    Text* t = (Text*) (core::GameObject*) self;
+    t->text = std::string(text);
 }

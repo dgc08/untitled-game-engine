@@ -1,10 +1,7 @@
 #include <iostream>
 
 #include "game.hpp"
-#include "game_core.h"
 #include "objects.hpp"
-
-using namespace core;
 
 class Lobby: public Node {
     void load(GameTree* ctx);
@@ -22,7 +19,7 @@ void Button::load(GameTree* ctx) {
 }
 
 int main(void) {
-    GameTree* tree = get_tree();
+    core::GameTree* tree = core::get_tree();
 
     tree->height = 480;
     tree->width = 800;
@@ -32,12 +29,12 @@ int main(void) {
     tree->background_color = Colors::black;
 
     load_scene(new Lobby);
-    reg_obj(get_root(), new Button, nullptr);
+    core::reg_obj(core::get_root(), new Button, nullptr);
     auto t = new Text("Hello and welcome", "PixelOperator.ttf", 20, Colors::lightgray);
     t->x = 190;
     t->y = 200,
 
-    reg_obj(get_root(), t, nullptr);
+    core::reg_obj(core::get_root(), t, nullptr);
     //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();

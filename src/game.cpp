@@ -29,7 +29,7 @@ void load_scene (GameObject* scene) {
     game_data.scene = scene;
 }
 
-GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*dequeue)(GameObject*, GameTree*),size_t extra_size) {
+GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*end)(GameObject*, GameTree*),size_t extra_size) {
     GameObject* g = new GameObject;
 
     g->data = new GameObjectData;
@@ -39,7 +39,7 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
     g->x = 0;
     g->y = 0;
 
-    g->on_end = dequeue ? dequeue : stub_impl;
+    g->on_end = end ? end : stub_impl;
     g->on_draw = draw ? draw : stub_impl;
     g->on_update = update ? update : stub_impl;
     g->on_load = load ? load : stub_impl;
@@ -100,6 +100,10 @@ GameObject** get_children (GameObject* g) {
     return ((GameObjectData*)g->data)->children.data();
 }
 
+GameObject* get_parent (GameObject* g) {
+    return ((GameObjectData*)g->data)->parent;
+}
+
 void reg_obj (GameObject* parent, GameObject* child, char* name) {
     // Discard name for now
     (void)name;
@@ -126,6 +130,10 @@ void run_game_loop () {
     while (is_running) {
         if (raylib)
             is_running &= !rl::WindowShouldClose();
+
+        game.delta = rl::GetFrameTime();
+        game.time = rl::GetTime();
+
         do_update(game_data.scene);
 
         if (raylib) {

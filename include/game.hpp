@@ -5,7 +5,9 @@
 #include <memory>
 
 extern "C" namespace core {
+    #undef GAME_CORE_H_
     #include "game_core.h"
+    //#undef GAME_CORE_H_
 }
 
 namespace rl {
