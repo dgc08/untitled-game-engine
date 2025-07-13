@@ -25,18 +25,21 @@ void text_ctr_load (GameObject* self, GameTree* ctx) {
 }
 
 void text_ctr_update (GameObject* self, GameTree* ctx) {
-    printf("uwuwu\n");
     text_ctr *data = self->c_extra;
-    data->pos = (data->pos+1) % data->len;
-    int pos = data->pos;
-    if (pos>=0) {
-        char tmp = data->msg[pos];
-        printf("chaing the %d\n", pos);
-        data->msg[pos] = '\0';
-        printf("printing the %s\n", data->msg);
-        set_gameText_text(get_parent(self), data->msg);
-        data->msg[pos] = tmp;
+
+    if (ctx->time-data->last < 0.5) {
+        return;
     }
+    data->last = ctx->time;
+
+
+    data->pos = (data->pos+1) % (data->len+1);
+    int pos = data->pos;
+
+    char tmp = data->msg[pos];
+    data->msg[pos] = '\0';
+    set_gameText_text(get_parent(self), data->msg);
+    data->msg[pos] = tmp;
 }
 
 
@@ -49,7 +52,7 @@ int main(void) {
 
     tree->background_color = BLACK;
 
-    GameObject* text = make_gameText("Hallo guten morgen", "PixelOperator.ttf", 15, LIGHTGRAY);
+    GameObject* text = make_gameText("", "PixelOperator.ttf", 15, LIGHTGRAY);
     text->x = 190;
     text->y = 200;
 

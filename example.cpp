@@ -3,6 +3,8 @@
 #include "game.hpp"
 #include "objects.hpp"
 
+using namespace core;
+
 class Lobby: public Node {
     void load(GameTree* ctx);
 };
