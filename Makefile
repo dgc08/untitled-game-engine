@@ -3,7 +3,7 @@ LIB = librayengine.a
 
 AR = ar
 CC = clang++
-CFLAGS = -Wall -Wextra -g -Iinclude/
+CFLAGS = -Wall -Wextra -g -Iinclude/ -rdynamic
 LIBFLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 
 OBJECTS = $(SRCS:.cpp=.o)

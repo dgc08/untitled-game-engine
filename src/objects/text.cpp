@@ -1,4 +1,5 @@
 #include "objects.hpp"
+#include "cpp_core.hpp"
 #include <string.h>
 #include <string>
 
@@ -27,6 +28,7 @@ static void on_draw_text(core::GameObject* self, core::GameTree *) {
 
 
 Text::Text(std::string text, const char* font_path, float font_size, core::Color color) {
+    this->type = core::GameObjectType_Text;
     this->text = text;
     this->font_size = font_size;
     this->color = color;
@@ -48,10 +50,13 @@ void configure_gameText(GameObject* self, float fontSize, float spacing, Color c
     t->font_size = fontSize;
     t->spacing = spacing;
     t->color = CONV(color, core::Color);
-    //t->text = std::string("basching");
 }
 
 void set_gameText_text(GameObject* self, const char* text) {
-    Text* t = (Text*) (core::GameObject*) self;
+    core::GameObject* g = (core::GameObject*) self;
+    if (g->type != core::GameObjectType_Text) {
+        engine_error("GameObject supplied to set_gameText_text is not a Text");
+    }
+    Text* t = (Text*) g;
     t->text = std::string(text);
 }

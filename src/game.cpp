@@ -1,6 +1,9 @@
 #include "cpp_core.hpp"
 
 #include <stdlib.h>
+#include <iostream>
+#include <string>
+#include <execinfo.h>
 
 namespace rl {
 #include <raylib.h>
@@ -35,6 +38,8 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
     g->data = new GameObjectData;
     if (extra_size)
         g->c_extra = ::operator new(extra_size);
+
+    g->type = GameObjectType_Generic;
 
     g->x = 0;
     g->y = 0;
@@ -146,4 +151,22 @@ void run_game_loop () {
     }
     if (raylib)
         rl::CloseWindow();
+}
+
+void engine_error(std::string msg) {
+    // Print your error message
+    std::cerr << "Engine error: " << msg << std::endl;
+
+    std::vector<void*> stack(10);
+    int size = backtrace(stack.data(), stack.size());
+    char** symbols = backtrace_symbols(stack.data(), size);
+
+    if (symbols) {
+        std::cerr << "Backtrace:\n";
+        for (int i = 0; i < size; ++i)
+            std::cerr << symbols[i] << '\n';
+        free(symbols);
+    }
+    
+    exit(EXIT_FAILURE);
 }

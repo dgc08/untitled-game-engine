@@ -18,4 +18,6 @@ typedef struct {
     std::map<std::string, GameObject*> named_children;
     GameObject* parent;
 } GameObjectData;
+
+void engine_error(std::string msg);
 #endif // CPP_UTILS_H_

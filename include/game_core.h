@@ -16,11 +16,16 @@ typedef u8 bool;
 
 #define CONV(val, T) ( *(T*)&val )
 
-typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
 typedef void (*GameObjFunc)(struct GameObject* self, struct GameTree* tree);
+typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
+
+const int GameObjectType_Generic = 0;
+const int GameObjectType_Text = -1;
 
 // GAME OBJECTS
 typedef struct GameObject {
+    int type;
+    
     GameObjFunc on_load;
     GameObjFunc on_update;
     GameObjFunc on_draw;
@@ -31,7 +36,7 @@ typedef struct GameObject {
 
     void* data; // DO NOT USE THIS
                 // Data is of type GameObjectData and is private for the Game Engine
-    void* c_extra; // Use this, for extra data
+    void* c_extra; // Use this for extra data
 } GameObject;
 
 // Game
@@ -44,7 +49,6 @@ typedef struct GameTree {
     const char* window_name;
     Color background_color;
 } GameTree;
-
 GameTree* get_tree();
 GameObject* get_root();
 void load_scene(GameObject*);

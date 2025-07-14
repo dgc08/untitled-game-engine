@@ -22,6 +22,8 @@ void on_end_node (core::GameObject* self, core::GameTree* ctx) {
 Node::Node () {
     this->data = new GameObjectData;
 
+    this->type = core::GameObjectType_Generic;
+
     this->x = 0;
     this->y = 0;
 
