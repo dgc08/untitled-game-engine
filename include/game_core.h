@@ -25,6 +25,7 @@ const int GameObjectType_Text = -1;
 // GAME OBJECTS
 typedef struct GameObject {
     int type;
+    bool is_generic_node; // if the object is a Node (only C++)
     
     GameObjFunc on_load;
     GameObjFunc on_update;
@@ -55,7 +56,7 @@ void load_scene(GameObject*);
 
 GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(GameObject*, GameTree*), void(*draw)(GameObject*, GameTree*), void(*dequeue)(GameObject*, GameTree*),size_t extra_c_size);
 void dequeue(GameObject*);
-void reg_obj(GameObject* parent, GameObject* child, char* name);
+void reg_obj(GameObject* parent, GameObject* child, const char* name);
 
 GameObject** get_children (GameObject* g);
 GameObject* get_parent (GameObject* g);

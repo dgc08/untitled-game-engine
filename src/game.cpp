@@ -1,9 +1,12 @@
 #include "cpp_core.hpp"
+#include "game_core.h"
 
 #include <stdlib.h>
 #include <iostream>
 #include <string>
 #include <execinfo.h>
+#include <vector>
+#include <algorithm>
 
 namespace rl {
 #include <raylib.h>
@@ -13,6 +16,7 @@ static GameTree game;
 
 struct {
     GameObject* scene;
+    std::vector<GameObject*> dequeue_queue;
 } game_data;
 
 GameTree* get_tree () {
@@ -40,6 +44,7 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
         g->c_extra = ::operator new(extra_size);
 
     g->type = GameObjectType_Generic;
+    g->is_generic_node = false;
 
     g->x = 0;
     g->y = 0;
@@ -53,9 +58,19 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
 }
 
 void dequeue(GameObject* g) {
+    game_data.dequeue_queue.push_back(g);
+}
+
+void perform_dequeue(GameObject* g) {
     g->on_end(g, &game);
 
     GameObjectData* data = (GameObjectData*)g->data;
+
+    GameObjectData* data_parent = (GameObjectData*) data->parent->data;
+
+    auto v = data_parent->children;
+    v.erase(std::find(v.begin(), v.end(), g));
+    // TODO names
 
     for (auto& child : data->children) {
         dequeue(child);
@@ -109,7 +124,7 @@ GameObject* get_parent (GameObject* g) {
     return ((GameObjectData*)g->data)->parent;
 }
 
-void reg_obj (GameObject* parent, GameObject* child, char* name) {
+void reg_obj (GameObject* parent, GameObject* child, const char* name) {
     // Discard name for now
     (void)name;
 
@@ -132,6 +147,8 @@ void run_game_loop () {
 
     bool is_running = game_data.scene != nullptr;
     do_load(get_root());
+    game_data.dequeue_queue.reserve(8);
+    
     while (is_running) {
         if (raylib)
             is_running &= !rl::WindowShouldClose();
@@ -147,6 +164,14 @@ void run_game_loop () {
                 do_draw(game_data.scene);
             rl::EndDrawing();
         }
+
+        for (auto g: game_data.dequeue_queue) {
+            if (g)
+                perform_dequeue(g);
+        }
+        game_data.dequeue_queue.clear();
+        game_data.dequeue_queue.reserve(8);
+        game_data.dequeue_queue.shrink_to_fit();
 
     }
     if (raylib)

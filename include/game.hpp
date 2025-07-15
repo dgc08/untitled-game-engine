@@ -2,6 +2,7 @@
 #define GAME_H_
 
 #include <string>
+#include <vector>
 #include <memory>
 
 extern "C" namespace core {
@@ -55,6 +56,17 @@ class Node: public core::GameObject {
         virtual void update(core::GameTree*) {};
         virtual void draw(core::GameTree*) {};
         virtual void end(core::GameTree*) {};
+
+        void dequeue();
+        void reg_obj(core::GameObject* child, char* name);
+        void reg_obj(Node* child, std::string);
+
+        std::vector<Node*> get_children();
+        Node* get_parent();
+
+        core::GameObject** get_children_all();
+        core::GameObject* get_parent_all();
+
 };
 
 #endif // GAME_H_
