@@ -9,6 +9,7 @@ namespace rl {
     #include <raylib.h>
 }
 
+
 static void on_load_text (core::GameObject* self, core::GameTree *) {
     Text* t = (Text*)self;
 
@@ -23,9 +24,8 @@ static void on_load_text (core::GameObject* self, core::GameTree *) {
 static void on_draw_text(core::GameObject* self, core::GameTree *) {
       Text* t = (Text*)self;
       rl::Font font = t->font;
-      rl::DrawTextEx(font, t->text.c_str(), {t->pos.x, t->pos.y}, t->font_size, t->spacing, CONV(t->color, rl::Color));
+      rl::DrawTextPro(font, t->text.c_str(), CONV(t->pos, rl::Vector2), CONV(t->origin, rl::Vector2), t->rotation, t->font_size, t->spacing, CONV(t->color, rl::Color));
 }
-
 
 Text::Text(std::string text, const char* font_path, float font_size, core::Color color) {
     this->type = core::GameObjectType_Text;
@@ -40,6 +40,8 @@ Text::Text(std::string text, const char* font_path, float font_size, core::Color
     this->on_draw = on_draw_text;
     this->on_load = on_load_text;
 }
+
+
 GameObject* make_gameText (const char* text, const char* font_path, float font_size, Color color) {
     core::GameObject* ret = (core::GameObject*) new Text(std::string(text), font_path, font_size, CONV(color, core::Color));
     return (GameObject*) ret;

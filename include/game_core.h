@@ -22,6 +22,7 @@ typedef struct { float x; float y;} Vector2;
 
 const int GameObjectType_Generic = 0;
 const int GameObjectType_Text = -1;
+const int GameObjectType_Rect = -2;
 
 // GAME OBJECTS
 typedef struct GameObject {
@@ -34,6 +35,8 @@ typedef struct GameObject {
     GameObjFunc on_end;
 
     Vector2 pos;
+    float rotation;
+    Vector2 origin; // origin of rotation (if the type implements it)
 
     void* data; // DO NOT USE THIS
                 // Data is of type GameObjectData and is private for the Game Engine

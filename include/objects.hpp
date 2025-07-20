@@ -20,4 +20,12 @@ class Text: public Node {
         float spacing;
 };
 
+class Rect: public Node {
+    public:
+        Rect(Vector2 pos, Vector2 size, Color color);
+
+        core::Vector2 size;
+        core::Color color;
+};
+
 #endif // OBJECTS_H_

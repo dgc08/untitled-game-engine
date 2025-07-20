@@ -37,7 +37,6 @@ int main(void) {
     t->pos.y = 200,
 
     core::reg_obj(core::get_root(), t, nullptr);
-    //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);
 
     run_game_loop();
 

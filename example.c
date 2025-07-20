@@ -54,7 +54,12 @@ int main(void) {
 
     GameObject* text = make_gameText("", "PixelOperator.ttf", 35, LIGHTGRAY);
     text->pos.x = 30;
-    text->pos.y = 200;
+    text->pos.y = 300;
+    text->rotation = -20;
+
+    GameObject* rect = make_gameRect((Vector2){50,50}, (Vector2){100,100}, RED);
+    configure_gameRect(rect, (Vector2){200,100}, BLUE);
+    reg_obj(text, rect, NULL);
 
     GameObject* text_ctr_obj = make_gameObject(text_ctr_load, text_ctr_update, NULL, NULL, sizeof(text_ctr));
     reg_obj(text, text_ctr_obj, NULL);
