@@ -46,8 +46,7 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
     g->type = GameObjectType_Generic;
     g->is_generic_node = false;
 
-    g->x = 0;
-    g->y = 0;
+    g->pos = {0, 0};
 
     g->on_end = end ? end : stub_impl;
     g->on_draw = draw ? draw : stub_impl;
@@ -108,11 +107,11 @@ void do_draw (GameObject* g) {
     g->on_draw(g, &game);
 
     for (auto& child : data->children) {
-        child->x += g->x;
-        child->y += g->y;
+        child->pos.x += g->pos.x;
+        child->pos.y += g->pos.y;
         do_draw(child);
-        child->y -= g->y;
-        child->x -= g->x;
+        child->pos.y -= g->pos.y;
+        child->pos.x -= g->pos.x;
     }
 }
 

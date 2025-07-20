@@ -26,8 +26,7 @@ Node::Node () {
     this->type = core::GameObjectType_Generic;
     this->is_generic_node = true;
 
-    this->x = 0;
-    this->y = 0;
+    this->pos = {0,0};
 
     this->on_load = on_load_node;
     this->on_update = on_update_node;

@@ -23,7 +23,7 @@ static void on_load_text (core::GameObject* self, core::GameTree *) {
 static void on_draw_text(core::GameObject* self, core::GameTree *) {
       Text* t = (Text*)self;
       rl::Font font = t->font;
-      rl::DrawTextEx(font, t->text.c_str(), {t->x, t->y}, t->font_size, t->spacing, CONV(t->color, rl::Color));
+      rl::DrawTextEx(font, t->text.c_str(), {t->pos.x, t->pos.y}, t->font_size, t->spacing, CONV(t->color, rl::Color));
 }
 
 

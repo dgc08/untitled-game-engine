@@ -53,8 +53,8 @@ int main(void) {
     tree->background_color = BLACK;
 
     GameObject* text = make_gameText("", "PixelOperator.ttf", 35, LIGHTGRAY);
-    text->x = 30;
-    text->y = 200;
+    text->pos.x = 30;
+    text->pos.y = 200;
 
     GameObject* text_ctr_obj = make_gameObject(text_ctr_load, text_ctr_update, NULL, NULL, sizeof(text_ctr));
     reg_obj(text, text_ctr_obj, NULL);

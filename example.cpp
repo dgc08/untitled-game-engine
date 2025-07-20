@@ -33,8 +33,8 @@ int main(void) {
     load_scene(new Lobby);
     core::reg_obj(core::get_root(), new Button, nullptr);
     auto t = new Text("Hello and welcome", "PixelOperator.ttf", 20, Colors::lightgray);
-    t->x = 190;
-    t->y = 200,
+    t->pos.x = 190;
+    t->pos.y = 200,
 
     core::reg_obj(core::get_root(), t, nullptr);
     //gameObject_initialize(tree->scene, nullptr, Lobby::on_update);

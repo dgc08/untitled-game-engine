@@ -18,6 +18,7 @@ typedef u8 bool;
 
 typedef void (*GameObjFunc)(struct GameObject* self, struct GameTree* tree);
 typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
+typedef struct { float x; float y;} Vector2;
 
 const int GameObjectType_Generic = 0;
 const int GameObjectType_Text = -1;
@@ -32,8 +33,7 @@ typedef struct GameObject {
     GameObjFunc on_draw;
     GameObjFunc on_end;
 
-    float x;
-    float y;
+    Vector2 pos;
 
     void* data; // DO NOT USE THIS
                 // Data is of type GameObjectData and is private for the Game Engine
