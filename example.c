@@ -7,6 +7,8 @@
 #include "game_core.h"
 #include "objects.h"
 
+GameObject* rect;
+
 typedef struct {
     float last;
     char* msg;
@@ -20,6 +22,8 @@ void text_ctr_load (GameObject* self, GameTree* ctx) {
     data->msg = strdup("Hello Good Morning");
     data->len = strlen(data->msg);
     data->pos = 0;
+
+    dequeue(rect);
 
     printf("loaded text ctr\n");
 }
@@ -57,7 +61,7 @@ int main(void) {
     text->pos.y = 300;
     text->rotation = -20;
 
-    GameObject* rect = make_gameRect((Vector2){50,50}, (Vector2){100,100}, RED);
+    rect = make_gameRect((Vector2){50,50}, (Vector2){100,100}, RED);
     configure_gameRect(rect, (Vector2){200,100}, BLUE);
     reg_obj(text, rect, NULL);
 

@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "cpp_core.hpp"
 #include "game_core.h"
+#include <algorithm>
 
 #include <stdlib.h>
 
@@ -35,8 +36,35 @@ Node::Node () {
 
 }
 
+
+void perform_dequeue(GameObject* self) {
+    core::GameObject* g = (core::GameObject*) self;
+    g->on_end(g, core::get_tree());
+
+    GameObjectData* data = (GameObjectData*)g->data;
+
+    GameObjectData* data_parent = (GameObjectData*) ( (core::GameObject*) data->parent)->data;
+
+    auto v = &data_parent->children;
+    v->erase(std::find(v->begin(), v->end(), (GameObject*)g));
+    // TODO names
+
+    for (auto& child : data->children) {
+        core::dequeue( (core::GameObject*)child );
+    }
+
+    if (g->c_extra)
+        ::operator delete (g->c_extra);
+    delete data;
+    if (g->is_generic_node)
+        delete (Node*) g;
+    else
+        delete g;
+}
+
 Node::~Node () {
-    core::dequeue(this);
+    if (!this->is_dequeued)
+        core::dequeue(this);
 }
 
 inline void Node::dequeue() {

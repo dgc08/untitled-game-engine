@@ -6,7 +6,6 @@
 #include <string>
 #include <execinfo.h>
 #include <vector>
-#include <algorithm>
 
 namespace rl {
 #include <raylib.h>
@@ -58,27 +57,6 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
 
 void dequeue(GameObject* g) {
     game_data.dequeue_queue.push_back(g);
-}
-
-void perform_dequeue(GameObject* g) {
-    g->on_end(g, &game);
-
-    GameObjectData* data = (GameObjectData*)g->data;
-
-    GameObjectData* data_parent = (GameObjectData*) data->parent->data;
-
-    auto v = data_parent->children;
-    v.erase(std::find(v.begin(), v.end(), g));
-    // TODO names
-
-    for (auto& child : data->children) {
-        dequeue(child);
-    }
-
-    if (g->c_extra)
-        ::operator delete (g->c_extra);
-    delete data;
-    delete g;
 }
 
 void do_update (GameObject* g) {
@@ -165,8 +143,9 @@ void run_game_loop () {
         }
 
         for (auto g: game_data.dequeue_queue) {
-            if (g)
+            if (g) {
                 perform_dequeue(g);
+            }
         }
         game_data.dequeue_queue.clear();
         game_data.dequeue_queue.reserve(8);

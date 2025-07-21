@@ -19,5 +19,7 @@ typedef struct {
     GameObject* parent;
 } GameObjectData;
 
+void perform_dequeue(GameObject* g);
+
 void engine_error(std::string msg);
 #endif // CPP_UTILS_H_

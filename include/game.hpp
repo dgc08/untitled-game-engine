@@ -66,7 +66,8 @@ class Node: public core::GameObject {
 
         core::GameObject** get_children_all();
         core::GameObject* get_parent_all();
-
+    private:
+        bool is_dequeued;
 };
 
 #endif // GAME_H_
