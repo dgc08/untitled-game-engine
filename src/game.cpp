@@ -40,12 +40,16 @@ GameObject* make_gameObject (void(*load)(GameObject*, GameTree*), void(*update)(
 
     g->data = new GameObjectData;
     if (extra_size)
-        g->c_extra = ::operator new(extra_size);
+        g->c_extra = malloc(extra_size);
+    else
+        g->c_extra = NULL;
 
     g->type = GameObjectType_Generic;
     g->is_generic_node = false;
 
     g->pos = {0, 0};
+    g->origin = {0, 0};
+    g->rotation = 0;
 
     g->on_end = end ? end : stub_impl;
     g->on_draw = draw ? draw : stub_impl;
@@ -119,8 +123,10 @@ void run_game_loop () {
         raylib = false;
     }
 
-    if (raylib)
+    if (raylib) {
         rl::InitWindow(game.width, game.height, game.window_name);
+        rl::SetTargetFPS(60);
+    }
 
     bool is_running = game_data.scene != nullptr;
     do_load(get_root());
@@ -172,4 +178,12 @@ void engine_error(std::string msg) {
     }
     
     exit(EXIT_FAILURE);
+}
+
+float rand_float() {
+    return (float)rand()/(float)RAND_MAX;
+}
+
+int rand_int(int min, int max){
+    return rl::GetRandomValue(min, max);
 }

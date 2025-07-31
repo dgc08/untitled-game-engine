@@ -34,6 +34,7 @@ Node::Node () {
     this->on_draw = on_draw_node;
     this->on_end = on_end_node;
 
+    this->c_extra = 0;
 }
 
 
@@ -54,7 +55,7 @@ void perform_dequeue(GameObject* self) {
     }
 
     if (g->c_extra)
-        ::operator delete (g->c_extra);
+        free (g->c_extra);
     delete data;
     if (g->is_generic_node)
         delete (Node*) g;

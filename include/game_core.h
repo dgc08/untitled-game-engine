@@ -18,7 +18,9 @@ typedef u8 bool;
 
 typedef void (*GameObjFunc)(struct GameObject* self, struct GameTree* tree);
 typedef struct { u8 r; u8 g; u8 b; u8 a;} Color;
+
 typedef struct { float x; float y;} Vector2;
+typedef struct { float x; float y; float z;} Vector3;
 
 const int GameObjectType_Generic = 0;
 const int GameObjectType_Text = -1;
@@ -66,5 +68,7 @@ GameObject* get_parent (GameObject* g);
 
 void run_game_loop();
 
+float rand_float();
+int rand_int(int min, int max);
 
 #endif // GAME_CORE_H_

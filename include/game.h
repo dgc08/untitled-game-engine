@@ -1,5 +1,7 @@
 #include "game_core.h"
 
+#include <math.h>
+
 #define LIGHTGRAY  (Color){ 200, 200, 200, 255 }   // Light Gray
 #define GRAY       (Color){ 130, 130, 130, 255 }   // Gray
 #define DARKGRAY   (Color){ 80, 80, 80, 255 }      // Dark Gray
